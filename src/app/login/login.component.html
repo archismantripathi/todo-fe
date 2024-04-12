@@ -1,0 +1,30 @@
+<main class="main">
+  <mat-card class="card">
+    <mat-card-content>
+
+      <h3 class="title bold">To-Do App</h3>
+      <h5 class="title">Log-in to continue</h5>
+      <form class="form">
+        <mat-form-field>
+          <mat-label>Username</mat-label>
+          <input matInput placeholder="Username">
+          <mat-icon matSuffix>person</mat-icon>
+          <!-- <mat-hint>Hint</mat-hint> -->
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input matInput placeholder="Password">
+          <mat-icon matSuffix>lock</mat-icon>
+          <!-- <mat-hint>Hint</mat-hint> -->
+        </mat-form-field>
+
+        <button mat-flat-button type="button" color="accent">Log in</button>
+        <a routerLink="/register">
+          <button mat-button type="button" color="accent" class="signup">Dont have an account? Register now</button>
+        </a>
+      </form>
+
+    </mat-card-content>
+  </mat-card>
+</main>
