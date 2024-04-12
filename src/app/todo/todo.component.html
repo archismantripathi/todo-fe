@@ -1,0 +1,64 @@
+<main class="main">
+  <div class="container">
+    <mat-card class="date">
+      <div class="menu">
+        <span class="menu-btn-text" hidden>Menu</span>
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon class="menu-icon">more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <mat-icon>logout</mat-icon>
+            <span>Logout</span>
+          </button>
+          <button mat-menu-item>
+            <mat-icon>edit</mat-icon>
+            <span>Edit you name</span>
+          </button>
+          <button mat-menu-item>
+            <mat-icon>vpn_key</mat-icon>
+            <span>Change your password</span>
+          </button>
+        </mat-menu>
+      </div>
+
+      <p class="greeting">Hi, User la hjhdsahshd</p>
+      <mat-card-content>
+        {{ dateText() }}
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="list-card">
+      <mat-card-content class="list-card-content">
+        <h4 class="heading">To-Do List</h4>
+        <mat-divider></mat-divider>
+        <p><mat-checkbox formControlName="extracheese"><span class="todo-text">Extra Cheese</span></mat-checkbox></p>
+        <mat-divider></mat-divider>
+        <p><mat-checkbox formControlName="extracheese"><span class="todo-text">Extra Cheese</span></mat-checkbox></p>
+        <mat-divider></mat-divider>
+        <p><mat-checkbox formControlName="extracheese"><span class="todo-text">Extra Cheese</span></mat-checkbox></p>
+        <mat-divider></mat-divider>
+        <p><mat-checkbox formControlName="extracheese"><span class="todo-text">Extra Cheese</span></mat-checkbox></p>
+        <mat-divider></mat-divider>
+        <p><mat-checkbox formControlName="extracheese"><span class="todo-text">Extra Cheese</span></mat-checkbox></p>
+        <mat-divider></mat-divider>
+        <p><mat-checkbox formControlName="extracheese"><span class="todo-text">Extra Cheese</span></mat-checkbox></p>
+        <mat-divider></mat-divider>
+        <p><mat-checkbox formControlName="extracheese"><span class="todo-text checked">Extra
+              Cheese</span></mat-checkbox></p>
+        <mat-divider></mat-divider>
+        <p><mat-checkbox formControlName="extracheese"><span class="todo-text">Extra Cheese</span></mat-checkbox></p>
+        <mat-divider></mat-divider>
+        <p><mat-checkbox formControlName="extracheese"><span class="todo-text">Extra Cheese</span></mat-checkbox></p>
+      </mat-card-content>
+    </mat-card>
+    <div class="new-todo">
+
+      <mat-form-field class="new-todo-input">
+        <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+          cdkAutosizeMaxRows="5" placeholder="Add new To-Do"></textarea>
+      </mat-form-field>
+      <button mat-fab color="primary" class="add-todo-btn">
+        <mat-icon>add</mat-icon></button>
+    </div>
+  </div>
+</main>

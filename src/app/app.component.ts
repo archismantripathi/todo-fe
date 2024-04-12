@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +7,7 @@ import { AuthService } from './auth.service';
   imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  providers: [ AuthService ]
+  providers: []
 })
 export class AppComponent {
   title = 'todo-fe';
