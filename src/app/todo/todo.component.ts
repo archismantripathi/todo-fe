@@ -10,6 +10,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { MatMenuModule } from '@angular/material/menu';
+import { AuthService } from '../auth/auth.service';
+import { MatSnackBar, MatSnackBarHorizontalPosition } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-todo',
@@ -34,6 +36,10 @@ export class TodoComponent implements OnInit,OnDestroy {
 
   dateText = signal("--");
   intervalId :any = 0;
+  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
+
+  constructor(private authService: AuthService, private _snackBar: MatSnackBar){}
+
   async updateDate() {
     let currentDate = new Date();
 
@@ -42,6 +48,11 @@ export class TodoComponent implements OnInit,OnDestroy {
       month: 'long',
       day: 'numeric',
     }));
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.openSnackBar("Logout Successful!");
   }
 
   ngOnInit(): void {
@@ -54,4 +65,9 @@ export class TodoComponent implements OnInit,OnDestroy {
   ngOnDestroy(): void {
     clearTimeout(this.intervalId);
   }
+
+  openSnackBar(msg: string): void {
+    this._snackBar.open(msg, 'Got it!', {
+      horizontalPosition: this.horizontalPosition
+  });}
 }
