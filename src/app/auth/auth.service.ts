@@ -25,7 +25,7 @@ export class AuthService {
       map((data: any) => {
         if (data != null) {
           localStorage.setItem('fullName', data.message);
-          return data.message;
+          return data.message.fullName;
         } else {
           return null;
         }
