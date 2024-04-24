@@ -62,11 +62,11 @@ export class RegisterComponent {
     }
     if(this.register(String(this.signupForm.value.username), String(this.signupForm.value.fullName), String(this.signupForm.value.password)))
       this.openSnackBar("Registration Successful");
-    this.authService.login(String(this.signupForm.value.username),String(this.signupForm.value.password));
+    return;
   }
 
   register(username: string, fullName: string, password: string): boolean {
-    let noErr: boolean = false
+    let noErr: boolean = false;
     this.http
       .post<string>(uri + 'api/user', {
         username: username,

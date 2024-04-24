@@ -50,25 +50,15 @@ export class LoginComponent {
     return this.loginForm.controls;
   }
 
-  onSubmit() :void {
+  onSubmit(): void {
     if (this.loginForm.invalid) {
       this.openSnackBar('Invalid Form');
       return;
     }
-    this.authService
-      .login(
-        String(this.loginForm.value.username),
-        String(this.loginForm.value.password)
-      )
-      .subscribe({
-        next: (success: boolean) => {
-          if (success) this.openSnackBar("Welcome, 'x'");
-          else this.openSnackBar('Something went wrong');
-        },
-        error: (errorMessage: string) => {
-          this.openSnackBar(errorMessage);
-        },
-      });
+    this.authService.login(
+      String(this.loginForm.value.username),
+      String(this.loginForm.value.password)
+    );
     return;
   }
 

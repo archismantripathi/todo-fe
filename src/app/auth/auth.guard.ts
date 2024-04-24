@@ -1,15 +1,6 @@
-import { inject } from "@angular/core";
-import { AuthService } from "./auth.service";
-import { Router } from "express";
+import { CanActivateFn } from '@angular/router';
 
-export const CanActivate = () => {
-  const authService = inject(AuthService);
-  const router = inject(Router);
-
-  if(false) {
-    return true;
-  } else {
-    router.navigate(['/login']);
-    return false;
-  }
-}
+export const authGuard: CanActivateFn = (route, state) => {
+  debugger;
+  return true;
+};
