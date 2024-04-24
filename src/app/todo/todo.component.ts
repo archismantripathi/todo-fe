@@ -11,7 +11,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { MatMenuModule } from '@angular/material/menu';
 import { AuthService } from '../auth/auth.service';
-import { MatSnackBar, MatSnackBarHorizontalPosition } from '@angular/material/snack-bar';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-todo',
@@ -32,27 +35,31 @@ import { MatSnackBar, MatSnackBarHorizontalPosition } from '@angular/material/sn
   templateUrl: './todo.component.html',
   styleUrl: './todo.component.scss',
 })
-export class TodoComponent implements OnInit,OnDestroy {
-
-  dateText = signal("--");
-  intervalId :any = 0;
+export class TodoComponent implements OnInit, OnDestroy {
+  dateText = signal('--');
+  intervalId: any = 0;
   horizontalPosition: MatSnackBarHorizontalPosition = 'end';
 
-  constructor(private authService: AuthService, private _snackBar: MatSnackBar){}
+  constructor(
+    private authService: AuthService,
+    private _snackBar: MatSnackBar
+  ) {}
 
   async updateDate() {
     let currentDate = new Date();
 
-    this.dateText.set(currentDate.toLocaleDateString('en-US', {
-      weekday: 'long',
-      month: 'long',
-      day: 'numeric',
-    }));
+    this.dateText.set(
+      currentDate.toLocaleDateString('en-US', {
+        weekday: 'long',
+        month: 'long',
+        day: 'numeric',
+      })
+    );
   }
 
   logout(): void {
     this.authService.logout();
-    this.openSnackBar("Logout Successful!");
+    this.openSnackBar('Logout Successful!');
   }
 
   ngOnInit(): void {
@@ -68,6 +75,7 @@ export class TodoComponent implements OnInit,OnDestroy {
 
   openSnackBar(msg: string): void {
     this._snackBar.open(msg, 'Got it!', {
-      horizontalPosition: this.horizontalPosition
-  });}
+      horizontalPosition: this.horizontalPosition,
+    });
+  }
 }
