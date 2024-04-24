@@ -2,7 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { uri } from '../config/uri.config';
-import { Observable, catchError, map, of, switchMap, tap, throwError } from 'rxjs';
+import {
+  Observable,
+  catchError,
+  map,
+  of,
+  switchMap,
+  tap,
+  throwError,
+} from 'rxjs';
 import {
   MatSnackBar,
   MatSnackBarHorizontalPosition,
@@ -56,6 +64,7 @@ export class AuthService {
         switchMap(() => this.getName()),
         tap((fullName: string) => {
           this.openSnackBar('Welcome, ' + fullName);
+          this.router.navigate(['todo']);
         }),
         switchMap(() => {
           return of(undefined);
@@ -72,7 +81,11 @@ export class AuthService {
       );
   }
 
-  register(username: string, fullName: string, password: string): Observable<void> {
+  register(
+    username: string,
+    fullName: string,
+    password: string
+  ): Observable<void> {
     return this.http
       .post<any>(this.uriForUser, {
         username: username,
@@ -82,7 +95,7 @@ export class AuthService {
       .pipe(
         tap((data: any) => {
           if (data != null) {
-            this.openSnackBar("Registration successful")
+            this.openSnackBar('Registration successful');
             return data;
           }
         }),
