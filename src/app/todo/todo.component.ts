@@ -37,6 +37,7 @@ import {
 })
 export class TodoComponent implements OnInit, OnDestroy {
   dateText = signal('--');
+  nameText = signal('--');
   intervalId: any = 0;
   horizontalPosition: MatSnackBarHorizontalPosition = 'end';
 
@@ -63,6 +64,8 @@ export class TodoComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    const fullName = localStorage.getItem('fullName');
+    if (fullName) this.nameText.set(fullName);
     this.updateDate();
     this.intervalId = setInterval(() => {
       this.updateDate();

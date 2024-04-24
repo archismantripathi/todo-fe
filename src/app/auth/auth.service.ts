@@ -32,7 +32,7 @@ export class AuthService {
     return this.http.get(this.uriForUser).pipe(
       map((data: any) => {
         if (data != null) {
-          localStorage.setItem('fullName', data.message);
+          localStorage.setItem('fullName', data.message.fullName);
           return data.message.fullName;
         } else {
           return null;
