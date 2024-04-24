@@ -40,17 +40,58 @@ export class TodoService {
     );
   }
 
-  newTodo() {}
+  newTodo(content: string, checked: boolean = false): Observable<boolean> {
+    return this.http.post(this.uriForTodo, { content, checked }).pipe(
+      map((data: any) => {
+        if (data != null) {
+          return true;
+        }
+        return false;
+      }),
+      catchError((error: any) => {
+        let errorMessage = 'Something went wrong';
+        if (error.error && error.error.message) {
+          errorMessage = error.error.message.substr(7);
+        }
+        this.openSnackBar(errorMessage);
+        console.log(errorMessage);
+        return throwError(() => errorMessage);
+      })
+    );
+  }
 
-  updateTodo() {}
+  updateTodo(
+    index: number,
+    content: string,
+    checked: boolean
+  ): Observable<boolean> {
+    return this.http.put(this.uriForTodo, { index, content, checked }).pipe(
+      map((data: any) => {
+        if (data != null) {
+          return true;
+        }
+        return false;
+      }),
+      catchError((error: any) => {
+        let errorMessage = 'Something went wrong';
+        if (error.error && error.error.message) {
+          errorMessage = error.error.message.substr(7);
+        }
+        this.openSnackBar(errorMessage);
+        console.log(errorMessage);
+        return throwError(() => errorMessage);
+      })
+    );
+  }
 
-  clearTodo() {
+  clearTodo(): Observable<boolean> {
     return this.http.delete(this.uriForTodo).pipe(
       map((data: any) => {
         if (data != null) {
           this.openSnackBar('Todo list cleared');
-          return data;
+          return true;
         }
+        return false;
       }),
       catchError((error: any) => {
         let errorMessage = 'Something went wrong';

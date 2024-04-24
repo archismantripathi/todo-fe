@@ -64,8 +64,14 @@ export class TodoComponent implements OnInit, OnDestroy {
     );
   }
 
-  newTodo(): void {
-    throw new Error('Method not implemented.');
+  newTodo(todo: string): void {
+    if(todo && todo.length == 0) return;
+
+    this.todoService.newTodo("content").subscribe((success: boolean) => {
+      if(success) {
+        this.todoList.set([{content: todo, checked: false},...this.todoList()]);
+      }
+    });
   }
 
   updateTodo(): void {
@@ -78,8 +84,10 @@ export class TodoComponent implements OnInit, OnDestroy {
   }
 
   clearTodo(): void {
-    this.todoService.clearTodo().subscribe(() => {
-      this.todoList.set([]);
+    this.todoService.clearTodo().subscribe((success: boolean) => {
+      if(success) {
+        this.todoList.set([]);
+      }
     });
   }
 
