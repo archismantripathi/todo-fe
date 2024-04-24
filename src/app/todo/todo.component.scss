@@ -35,6 +35,7 @@ mat-divider {
   width: 22rem;
   min-width: auto;
   margin: 0.5rem;
+  min-height: 300px;
   max-height: 30rem;
   overflow-x: hidden;
   height: auto;
@@ -93,4 +94,13 @@ mat-divider {
 
 .menu-icon {
   color: #fff;
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+  color: gray;
 }
