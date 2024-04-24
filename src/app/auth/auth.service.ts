@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { uri } from '../config/uri.config';
-import { Observable, Subscription, catchError, map, throwError } from 'rxjs';
+import { Observable, catchError, map, switchMap, throwError } from 'rxjs';
 import {
   MatSnackBar,
   MatSnackBarHorizontalPosition,
@@ -21,25 +21,24 @@ export class AuthService {
   ) {}
 
   getName(): Observable<string> {
-    return this.http.get(this.uriForUser)
-      .pipe(
-        map((data: any) => {
-          if (data != null) {
-            localStorage.setItem('fullName', data.message);
-            return data.message;
-          } else {
-            return null;
-          }
-        }),
-        catchError((error: any) => {
-          let errorMessage = 'Something went wrong';
-          if (error.error && error.error.message) {
-            errorMessage = error.error.message.substr(7);
-          }
-          console.log(errorMessage);
-          return throwError(() => errorMessage);
-        })
-      );
+    return this.http.get(this.uriForUser).pipe(
+      map((data: any) => {
+        if (data != null) {
+          localStorage.setItem('fullName', data.message);
+          return data.message;
+        } else {
+          return null;
+        }
+      }),
+      catchError((error: any) => {
+        let errorMessage = 'Something went wrong';
+        if (error.error && error.error.message) {
+          errorMessage = error.error.message.substr(7);
+        }
+        console.log(errorMessage);
+        return throwError(() => errorMessage);
+      })
+    );
   }
 
   login(username: string, password: string): Observable<void> {
@@ -64,34 +63,30 @@ export class AuthService {
           }
           console.log(errorMessage);
           return throwError(() => errorMessage);
-        })
-      )
-      .pipe(
+        }),
         map((success: boolean) => {
-          if(success)
+          if (success) {
             this.getName().subscribe({
-              next: (fullName: string)=>{
+              next: (fullName: string) => {
                 this.openSnackBar('Welcome, ' + fullName);
                 this.router.navigate(['/todo']);
               },
               error: (errorMessage: string) => {
                 this.openSnackBar(errorMessage);
-              }
+              },
             });
-          else this.openSnackBar("Something went wrong");
-        }),
-        catchError((error: any) => {
-          let errorMessage = 'Something went wrong';
-          if (error.error && error.error.message) {
-            errorMessage = error.error.message.substr(7);
+          } else {
+            this.openSnackBar('Something went wrong');
           }
-          console.log(errorMessage);
-          return throwError(() => errorMessage);
         })
       );
   }
 
-  register(username: string, fullName: string, password: string): Observable<void> {
+  register(
+    username: string,
+    fullName: string,
+    password: string
+  ): Observable<void> {
     return this.http
       .post<string>(this.uriForUser, {
         username: username,
@@ -113,18 +108,15 @@ export class AuthService {
           }
           console.log(errorMessage);
           return throwError(() => errorMessage);
+        }),
+        switchMap((success: boolean) => {
+          if (success) {
+            return this.login(username, password);
+          } else {
+            return throwError(() => 'Registration failed');
+          }
         })
-      )
-      .pipe({
-        next: (success: boolean) => {
-          if(success)
-            this.login(username,password);
-          else this.openSnackBar("Something went wrong");
-        },
-        error: (errorMessage: string) => {
-          this.openSnackBar(errorMessage);
-        },
-      });
+      );
   }
 
   logout(): void {
