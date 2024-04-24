@@ -19,7 +19,7 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class UserService {
   horizontalPosition: MatSnackBarHorizontalPosition = 'end';
   uriForUser: string = uri + 'api/user';
   constructor(

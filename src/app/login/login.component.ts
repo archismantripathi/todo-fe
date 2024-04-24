@@ -5,7 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { RouterLink } from '@angular/router';
-import { AuthService } from '../auth/auth.service';
+import { UserService } from '../services/user.service';
 import {
   FormBuilder,
   FormsModule,
@@ -37,7 +37,7 @@ export class LoginComponent {
   horizontalPosition: MatSnackBarHorizontalPosition = 'end';
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthService,
+    private userService: UserService,
     private _snackBar: MatSnackBar
   ) {}
 
@@ -55,7 +55,7 @@ export class LoginComponent {
       this.openSnackBar('Invalid Form');
       return;
     }
-    this.authService.login(
+    this.userService.login(
       String(this.loginForm.value.username),
       String(this.loginForm.value.password)
     ).subscribe();

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { AuthService } from './auth/auth.service';
+import { UserService } from './services/user.service';
 import { filter, map, mergeMap } from 'rxjs';
 
 @Component({
@@ -9,7 +9,7 @@ import { filter, map, mergeMap } from 'rxjs';
   imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  providers: [AuthService],
+  providers: [UserService],
 })
 export class AppComponent implements OnInit{
   title = 'todo-fe';

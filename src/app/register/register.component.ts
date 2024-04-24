@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { RouterLink } from '@angular/router';
-import { AuthService } from '../auth/auth.service';
+import { UserService } from '../services/user.service';
 import {
   MatSnackBar,
   MatSnackBarHorizontalPosition,
@@ -31,7 +31,7 @@ export class RegisterComponent {
   horizontalPosition: MatSnackBarHorizontalPosition = 'end';
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthService,
+    private userService: UserService,
     private _snackBar: MatSnackBar
   ) {}
 
@@ -57,7 +57,7 @@ export class RegisterComponent {
       this.openSnackBar("Passwords didn't match");
       return;
     }
-    this.authService.register(
+    this.userService.register(
       String(this.signupForm.value.username),
       String(this.signupForm.value.fullName),
       String(this.signupForm.value.password)

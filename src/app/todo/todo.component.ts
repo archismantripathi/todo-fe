@@ -10,11 +10,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { MatMenuModule } from '@angular/material/menu';
-import { AuthService } from '../auth/auth.service';
+import { UserService } from '../services/user.service';
 import {
   MatSnackBar,
   MatSnackBarHorizontalPosition,
 } from '@angular/material/snack-bar';
+import { TodoService } from '../services/todo.service';
+import { Todo } from '../services/model/todo.model';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-todo',
@@ -31,6 +34,7 @@ import {
     TextFieldModule,
     MatMenuModule,
     RouterLink,
+    NgClass,
   ],
   templateUrl: './todo.component.html',
   styleUrl: './todo.component.scss',
@@ -38,11 +42,13 @@ import {
 export class TodoComponent implements OnInit, OnDestroy {
   dateText = signal('--');
   nameText = signal('--');
+  todoList = signal<Todo[]>([]);
   intervalId: any = 0;
   horizontalPosition: MatSnackBarHorizontalPosition = 'end';
 
   constructor(
-    private authService: AuthService,
+    private userService: UserService,
+    private todoService: TodoService,
     private _snackBar: MatSnackBar
   ) {}
 
@@ -58,15 +64,51 @@ export class TodoComponent implements OnInit, OnDestroy {
     );
   }
 
+  newTodo(): void {
+    throw new Error('Method not implemented.');
+  }
+
+  updateTodo(): void {
+    throw new Error('Method not implemented.');
+  }
+
   logout(): void {
-    this.authService.logout();
+    this.userService.logout();
     this.openSnackBar('Logout Successful!');
   }
 
+  clearTodo(): void {
+    this.todoService.clearTodo().subscribe(() => {
+      this.todoList.set([]);
+    });
+  }
+
+  editPassword(): void {
+    throw new Error('Method not implemented.');
+  }
+
+  editName(): void {
+    throw new Error('Method not implemented.');
+  }
+
+  deleteUser(): void {
+    throw new Error('Method not implemented.');
+  }
+
   ngOnInit(): void {
+    this.todoService.getTodoList().subscribe((todoList: Todo[]) => {
+      this.todoList.set(todoList);
+    });
+
     const fullName = localStorage.getItem('fullName');
     if (fullName) this.nameText.set(fullName);
+
+    this.userService.getName().subscribe((fullName: string) => {
+      if (fullName) this.nameText.set(fullName);
+    });
+
     this.updateDate();
+
     this.intervalId = setInterval(() => {
       this.updateDate();
     }, 900000);

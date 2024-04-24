@@ -11,15 +11,19 @@
             <mat-icon>logout</mat-icon>
             <span>Logout</span>
           </button>
-          <button mat-menu-item>
+          <button (click)="deleteUser()" mat-menu-item>
+            <mat-icon>close</mat-icon>
+            <span>Close account</span>
+          </button>
+          <button (click)="editName()" mat-menu-item>
             <mat-icon>edit</mat-icon>
             <span>Edit you name</span>
           </button>
-          <button mat-menu-item>
+          <button (click)="editPassword()" mat-menu-item>
             <mat-icon>vpn_key</mat-icon>
             <span>Change your password</span>
           </button>
-          <button mat-menu-item>
+          <button (click)="clearTodo()" mat-menu-item>
             <mat-icon>delete</mat-icon>
             <span>Clear all To-Do</span>
           </button>
@@ -35,18 +39,16 @@
       <mat-card-content class="list-card-content">
         <h4 class="heading">To-Do List</h4>
         <mat-divider></mat-divider>
-        <p><mat-checkbox formControlName="extracheese"><span class="todo-text">Extra Cheese</span></mat-checkbox></p>
+        @for (todo of todoList(); track $index) {
+        <p>
+          <mat-checkbox formControlName="extracheese">
+            <span class="todo-text" [ngClass]="{'checked': todo.checked}">
+              {{todo.content}}
+            </span>
+          </mat-checkbox>
+        </p>
         <mat-divider></mat-divider>
-        <p><mat-checkbox formControlName="extracheese"><span class="todo-text">Extra Cheese</span></mat-checkbox></p>
-        <mat-divider></mat-divider>
-        <p><mat-checkbox formControlName="extracheese"><span class="todo-text">Extra Cheese</span></mat-checkbox></p>
-        <mat-divider></mat-divider>
-        <p><mat-checkbox formControlName="extracheese"><span class="todo-text">Extra Cheese</span></mat-checkbox></p>
-        <mat-divider></mat-divider>
-        <p><mat-checkbox formControlName="extracheese"><span class="todo-text">Extra Cheese</span></mat-checkbox></p>
-        <mat-divider></mat-divider>
-        <p><mat-checkbox formControlName="extracheese"><span class="todo-text">Extra Cheese</span></mat-checkbox></p>
-        <mat-divider></mat-divider>
+        }
         <p><mat-checkbox formControlName="extracheese"><span class="todo-text checked">Extra
               Cheese</span></mat-checkbox></p>
         <mat-divider></mat-divider>
