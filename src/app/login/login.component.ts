@@ -58,7 +58,7 @@ export class LoginComponent {
     this.authService.login(
       String(this.loginForm.value.username),
       String(this.loginForm.value.password)
-    );
+    ).subscribe();
     return;
   }
 

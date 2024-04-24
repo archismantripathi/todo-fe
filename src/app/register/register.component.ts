@@ -5,11 +5,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
-import { MatSnackBar, MatSnackBarHorizontalPosition } from '@angular/material/snack-bar';
-import { HttpClient } from '@angular/common/http';
-import { uri } from '../config/uri.config';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-register',
@@ -21,70 +22,52 @@ import { uri } from '../config/uri.config';
     MatIconModule,
     MatInputModule,
     RouterLink,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
   horizontalPosition: MatSnackBarHorizontalPosition = 'end';
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private _snackBar: MatSnackBar, private http: HttpClient, private router: Router){}
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private _snackBar: MatSnackBar
+  ) {}
 
   signupForm = this.formBuilder.group({
-    username: ['', [
-      Validators.required,
-      Validators.nullValidator
-    ]],
-    fullName: ['', [
-      Validators.required,
-      Validators.nullValidator
-    ]],
-    password: ['',[
-      Validators.required,
-      Validators.minLength(8)
-    ]],
-    confirmPassword: ['',[
-      Validators.required,
-      Validators.minLength(8)
-    ]],
+    username: ['', [Validators.required, Validators.nullValidator]],
+    fullName: ['', [Validators.required, Validators.nullValidator]],
+    password: ['', [Validators.required, Validators.minLength(8)]],
+    confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
   });
 
-  get form() { return this.signupForm.controls; };
+  get form() {
+    return this.signupForm.controls;
+  }
 
   onSubmit() {
-    if(this.signupForm.invalid) {
-      this.openSnackBar("Invalid Form");
+    if (this.signupForm.invalid) {
+      this.openSnackBar('Invalid Form');
       return;
     }
-    if(this.signupForm.value.password != this.signupForm.value.confirmPassword){
+    if (
+      this.signupForm.value.password != this.signupForm.value.confirmPassword
+    ) {
       this.openSnackBar("Passwords didn't match");
       return;
     }
-    if(this.register(String(this.signupForm.value.username), String(this.signupForm.value.fullName), String(this.signupForm.value.password)))
-      this.openSnackBar("Registration Successful");
+    this.authService.register(
+      String(this.signupForm.value.username),
+      String(this.signupForm.value.fullName),
+      String(this.signupForm.value.password)
+    ).subscribe();
     return;
-  }
-
-  register(username: string, fullName: string, password: string): boolean {
-    let noErr: boolean = false;
-    this.http
-      .post<string>(uri + 'api/user', {
-        username: username,
-        fullName: fullName,
-        password: password
-      })
-      .subscribe((data) => {
-        if (data != null) {
-          localStorage.setItem('Authorization', data);
-          this.router.navigate(['/todo']);
-          noErr=true;
-        }
-      });
-      return noErr;
   }
 
   openSnackBar(msg: string): void {
     this._snackBar.open(msg, 'Got it!', {
-      horizontalPosition: this.horizontalPosition
-  });}
+      horizontalPosition: this.horizontalPosition,
+    });
+  }
 }
