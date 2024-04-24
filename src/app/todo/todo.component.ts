@@ -115,15 +115,15 @@ export class TodoComponent implements OnInit, OnDestroy {
   }
 
   editPassword(): void {
-    throw new Error('Method not implemented.');
+    this.openSnackBar('Method not implemented.');
   }
 
   editName(): void {
-    throw new Error('Method not implemented.');
+    this.openSnackBar('Method not implemented.');
   }
 
   deleteUser(): void {
-    throw new Error('Method not implemented.');
+    this.openSnackBar('Method not implemented.');
   }
 
   ngOnInit(): void {
