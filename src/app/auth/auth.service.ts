@@ -110,10 +110,6 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
-  isAuth(): boolean {
-    return !!localStorage.getItem('Authorization');
-  }
-
   openSnackBar(msg: string): void {
     this._snackBar.open(msg, 'Got it!', {
       horizontalPosition: this.horizontalPosition,
