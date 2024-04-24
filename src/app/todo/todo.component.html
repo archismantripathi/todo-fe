@@ -40,31 +40,32 @@
         <h4 class="heading">To-Do List</h4>
         <mat-divider></mat-divider>
         @for (todo of todoList(); track $index) {
-        <p>
-          <mat-checkbox formControlName="extracheese">
-            <span class="todo-text" [ngClass]="{'checked': todo.checked}">
-              {{todo.content}}
-            </span>
-          </mat-checkbox>
-        </p>
-        <mat-divider></mat-divider>
+          <p>
+            <mat-checkbox [checked]="todo.checked" (click)="updateTodo($index, todo.content, !todo.checked)">
+              <span class="todo-text" [ngClass]="{'checked': todo.checked}">
+                {{todo.content}}
+              </span>
+            </mat-checkbox>
+          </p>
+          <mat-divider></mat-divider>
         }
-        <p><mat-checkbox formControlName="extracheese"><span class="todo-text checked">Extra
-              Cheese</span></mat-checkbox></p>
-        <mat-divider></mat-divider>
-        <p><mat-checkbox formControlName="extracheese"><span class="todo-text">Extra Cheese</span></mat-checkbox></p>
-        <mat-divider></mat-divider>
-        <p><mat-checkbox formControlName="extracheese"><span class="todo-text">Extra Cheese</span></mat-checkbox></p>
+        @empty {
+          <mat-divider></mat-divider>
+          <h3>
+            No Todo
+          </h3>
+        }
       </mat-card-content>
     </mat-card>
     <div class="new-todo">
-
-      <mat-form-field class="new-todo-input">
-        <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
-          cdkAutosizeMaxRows="5" placeholder="Add new To-Do"></textarea>
-      </mat-form-field>
-      <button mat-fab color="primary" class="add-todo-btn">
-        <mat-icon>add</mat-icon></button>
+      <form [formGroup]="todoForm" (ngSubmit)="onSubmit()">
+        <mat-form-field class="new-todo-input">
+          <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="5" placeholder="Add new To-Do" formControlName="todo"></textarea>
+        </mat-form-field>
+        <button mat-fab color="primary" class="add-todo-btn" type="submit">
+          <mat-icon>add</mat-icon></button>
+      </form>
     </div>
   </div>
 </main>

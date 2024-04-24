@@ -13,8 +13,8 @@ import { Observable, catchError, map, switchMap, tap, throwError } from 'rxjs';
   providedIn: 'root',
 })
 export class TodoService {
-  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
-  uriForTodo: string = uri + 'api/todo';
+  private horizontalPosition: MatSnackBarHorizontalPosition = 'end';
+  private uriForTodo: string = uri + 'api/todo';
   constructor(
     private http: HttpClient,
     private router: Router,

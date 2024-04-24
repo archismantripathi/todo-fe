@@ -18,6 +18,7 @@ import {
 import { TodoService } from '../services/todo.service';
 import { Todo } from '../services/model/todo.model';
 import { NgClass } from '@angular/common';
+import { FormsModule, ReactiveFormsModule,FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-todo',
@@ -35,6 +36,8 @@ import { NgClass } from '@angular/common';
     MatMenuModule,
     RouterLink,
     NgClass,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './todo.component.html',
   styleUrl: './todo.component.scss',
@@ -49,7 +52,8 @@ export class TodoComponent implements OnInit, OnDestroy {
   constructor(
     private userService: UserService,
     private todoService: TodoService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private formBuilder: FormBuilder
   ) {}
 
   async updateDate() {
@@ -64,18 +68,37 @@ export class TodoComponent implements OnInit, OnDestroy {
     );
   }
 
-  newTodo(todo: string): void {
-    if(todo && todo.length == 0) return;
+  todoForm = this.formBuilder.group({
+    todo: ['', [
+      Validators.required,
+    ]]
+  });
+  get form() { return this.todoForm.controls; };
 
-    this.todoService.newTodo("content").subscribe((success: boolean) => {
+  onSubmit(): void {
+    if(this.form.todo.value)
+      this.newTodo(this.form.todo.value);
+    return;
+  }
+
+  newTodo(todo: string): void {
+    if(todo.length == 0) return;
+
+    this.todoService.newTodo(todo).subscribe((success: boolean) => {
       if(success) {
         this.todoList.set([{content: todo, checked: false},...this.todoList()]);
       }
     });
   }
 
-  updateTodo(): void {
-    throw new Error('Method not implemented.');
+  updateTodo(index: number, content: string, checked: boolean): void {
+    if(content.length==0) return;
+    this.todoService.updateTodo(index, content, checked).subscribe((success: boolean) => {
+      let newTodoList: Todo[] = [...this.todoList()];
+      newTodoList[index] = {content, checked}
+      if(success)
+        this.todoList.set(newTodoList);
+    });
   }
 
   logout(): void {

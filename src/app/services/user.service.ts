@@ -20,8 +20,8 @@ import {
   providedIn: 'root',
 })
 export class UserService {
-  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
-  uriForUser: string = uri + 'api/user';
+  private horizontalPosition: MatSnackBarHorizontalPosition = 'end';
+  private uriForUser: string = uri + 'api/user';
   constructor(
     private http: HttpClient,
     private router: Router,
