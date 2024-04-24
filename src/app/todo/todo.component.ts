@@ -123,7 +123,7 @@ export class TodoComponent implements OnInit, OnDestroy {
   }
 
   deleteUser(): void {
-    this.openSnackBar('Method not implemented.');
+    this.userService.deleteUser().subscribe();
   }
 
   ngOnInit(): void {

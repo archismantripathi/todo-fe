@@ -49,6 +49,28 @@ export class UserService {
     );
   }
 
+  deleteUser(): Observable<boolean> {
+    return this.http.delete(this.uriForUser).pipe(
+      map((data: any) => {
+        if (data != null) {
+          this.openSnackBar('Account deleted from the server');
+          this.logout();
+          return true;
+        }
+        return false;
+      }),
+      catchError((error: any) => {
+        let errorMessage = 'Something went wrong';
+        if (error.error && error.error.message) {
+          errorMessage = error.error.message.substr(7);
+        }
+        this.openSnackBar(errorMessage);
+        console.log(errorMessage);
+        return throwError(() => errorMessage);
+      })
+    );
+  }
+
   login(username: string, password: string): Observable<void> {
     return this.http
       .post<any>(this.uriForUser + '/login', {
