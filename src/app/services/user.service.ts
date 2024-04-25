@@ -56,14 +56,16 @@ export class UserService {
   ): Observable<{fullName: boolean, password: boolean}> {
     let req: {
       fullName?: string;
-      oldPassword: string;
+      oldPassword?: string;
       newPassword?: string;
-    } = { oldPassword };
+    } = {};
 
     if (!(fullName||newPassword)) throw new Error("Can not update");
     if (fullName) req.fullName = fullName;
-    if (newPassword) req.newPassword = newPassword;
-
+    if (newPassword && oldPassword) {
+      req.oldPassword = oldPassword;
+      req.newPassword = newPassword;
+    }
     return this.http
       .put(this.uriForUser, req)
       .pipe(
