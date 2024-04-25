@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
@@ -10,6 +10,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { MatMenuModule } from '@angular/material/menu';
+import {
+  Dialog,
+  DialogRef,
+  DIALOG_DATA,
+  DialogModule,
+} from '@angular/cdk/dialog';
 import { UserService } from '../services/user.service';
 import {
   MatSnackBar,
@@ -18,7 +24,14 @@ import {
 import { TodoService } from '../services/todo.service';
 import { Todo } from '../services/model/todo.model';
 import { NgClass } from '@angular/common';
-import { FormsModule, ReactiveFormsModule,FormBuilder, Validators } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  FormBuilder,
+  Validators,
+} from '@angular/forms';
+import { YesNoDialogData } from './yes-no-dialog/yes-no.dialog.model';
+import { MatRippleModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-todo',
@@ -38,6 +51,7 @@ import { FormsModule, ReactiveFormsModule,FormBuilder, Validators } from '@angul
     NgClass,
     FormsModule,
     ReactiveFormsModule,
+    DialogModule,
   ],
   templateUrl: './todo.component.html',
   styleUrl: './todo.component.scss',
@@ -53,7 +67,8 @@ export class TodoComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private todoService: TodoService,
     private _snackBar: MatSnackBar,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    public dialog: Dialog
   ) {}
 
   async updateDate() {
@@ -69,36 +84,39 @@ export class TodoComponent implements OnInit, OnDestroy {
   }
 
   todoForm = this.formBuilder.group({
-    todo: ['', [
-      Validators.required,
-    ]]
+    todo: ['', [Validators.required]],
   });
-  get form() { return this.todoForm.controls; };
+  get form() {
+    return this.todoForm.controls;
+  }
 
   onSubmit(): void {
-    if(this.form.todo.value)
-      this.newTodo(this.form.todo.value);
+    if (this.form.todo.value) this.newTodo(this.form.todo.value);
     return;
   }
 
   newTodo(todo: string): void {
-    if(todo.length == 0) return;
+    if (todo.length == 0) return;
 
     this.todoService.newTodo(todo).subscribe((success: boolean) => {
-      if(success) {
-        this.todoList.set([{content: todo, checked: false},...this.todoList()]);
+      if (success) {
+        this.todoList.set([
+          { content: todo, checked: false },
+          ...this.todoList(),
+        ]);
       }
     });
   }
 
   updateTodo(index: number, content: string, checked: boolean): void {
-    if(content.length==0) return;
-    this.todoService.updateTodo(index, content, checked).subscribe((success: boolean) => {
-      let newTodoList: Todo[] = [...this.todoList()];
-      newTodoList[index] = {content, checked}
-      if(success)
-        this.todoList.set(newTodoList);
-    });
+    if (content.length == 0) return;
+    this.todoService
+      .updateTodo(index, content, checked)
+      .subscribe((success: boolean) => {
+        let newTodoList: Todo[] = [...this.todoList()];
+        newTodoList[index] = { content, checked };
+        if (success) this.todoList.set(newTodoList);
+      });
   }
 
   logout(): void {
@@ -107,23 +125,32 @@ export class TodoComponent implements OnInit, OnDestroy {
   }
 
   clearTodo(): void {
-    this.todoService.clearTodo().subscribe((success: boolean) => {
-      if(success) {
-        this.todoList.set([]);
-      }
+    const dialogRef = this.dialog.open<boolean>(YesNoDialog, {
+      data: "Your todo list will be cleared.",
+    });
+
+    dialogRef.closed.subscribe((confirm) => {
+      if (confirm)
+        this.todoService.clearTodo().subscribe((success: boolean) => {
+          if (success) {
+            this.todoList.set([]);
+          }
+        });
     });
   }
 
-  editPassword(): void {
-    this.openSnackBar('Method not implemented.');
-  }
-
-  editName(): void {
+  manageAccount(): void {
     this.openSnackBar('Method not implemented.');
   }
 
   deleteUser(): void {
-    this.userService.deleteUser().subscribe();
+    const dialogRef = this.dialog.open<boolean>(YesNoDialog, {
+      data: "Your account and all it's data will be permanently deleted.",
+    });
+
+    dialogRef.closed.subscribe((confirm) => {
+      if (confirm) this.userService.deleteUser().subscribe();
+    });
   }
 
   ngOnInit(): void {
@@ -154,4 +181,18 @@ export class TodoComponent implements OnInit, OnDestroy {
       horizontalPosition: this.horizontalPosition,
     });
   }
+}
+
+@Component({
+  selector: 'yes-no-dialog',
+  templateUrl: './yes-no-dialog/yes-no.dialog.html',
+  styleUrl: './yes-no-dialog/yes-no.dialog.scss',
+  standalone: true,
+  imports: [MatCardModule, MatDividerModule, MatIconModule, MatRippleModule],
+})
+export class YesNoDialog {
+  constructor(
+    public dialogRef: DialogRef<boolean>,
+    @Inject(DIALOG_DATA) public data: string
+  ) {}
 }

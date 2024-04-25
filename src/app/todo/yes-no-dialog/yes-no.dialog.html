@@ -1,0 +1,24 @@
+<main>
+  <mat-card>
+    <div class="caution-text">
+      <span><mat-icon class="caution-icon">warning</mat-icon> Caution</span>
+    </div>
+    <mat-divider></mat-divider>
+
+    <mat-card-content  class="card-content">
+      <h5>Are you sure?</h5>
+      <p>{{data}}</p>
+    </mat-card-content>
+
+    <mat-divider></mat-divider>
+    <mat-card-footer>
+      <button matRipple matRippleColor="#ff000045" class="btn confirm-btn" (click)="dialogRef.close(true)">
+        <mat-icon>delete</mat-icon> Confirm
+      </button>
+      <mat-divider></mat-divider>
+      <button matRipple matRippleColor="#005cbb45" class="btn cancel-btn" (click)="dialogRef.close()">
+        <mat-icon>close</mat-icon> Cancel
+      </button>
+    </mat-card-footer>
+  </mat-card>
+</main>

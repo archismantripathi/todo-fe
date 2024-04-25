@@ -1,0 +1,49 @@
+main {
+  max-width: 25rem;
+  width: auto;
+  margin: 1rem;
+}
+
+mat-card {
+  border-radius: 1rem;
+}
+
+.card-content {
+  padding: 1rem;
+  text-align: center;
+}
+
+.caution-text {
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: red;
+  font-weight: 400;
+}
+
+.caution-icon {
+  position: relative;
+  top: 0.3rem;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 3rem;
+  width: 100%;
+  background-color: white;
+  border: none;
+}
+
+.confirm-btn {
+  color: red;
+}
+
+.cancel-btn {
+  color: #005cbb;
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+}
+
