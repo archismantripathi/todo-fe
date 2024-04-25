@@ -90,12 +90,8 @@ export class TodoComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    if (this.form.todo.value) this.newTodo(this.form.todo.value);
-    return;
-  }
-
-  newTodo(todo: string): void {
-    if (todo.length == 0) return;
+    const todo = this.form.todo.value;
+    if (!todo || todo.length == 0) return;
 
     this.todoService.newTodo(todo).subscribe((success: boolean) => {
       if (success) {
@@ -103,6 +99,7 @@ export class TodoComponent implements OnInit, OnDestroy {
           { content: todo, checked: false },
           ...this.todoList(),
         ]);
+        this.form.todo.reset();
       }
     });
   }
