@@ -6,11 +6,25 @@
         <button mat-icon-button [matMenuTriggerFor]="menu">
           <mat-icon class="menu-icon">more_vert</mat-icon>
         </button>
+
         <mat-menu #menu="matMenu">
+          <button mat-menu-item [matMenuTriggerFor]="youraccount">
+            <mat-icon>person</mat-icon>
+            <span>Your account</span>
+          </button>
+
           <button (click)="logout()" mat-menu-item>
             <mat-icon>logout</mat-icon>
             <span>Logout</span>
           </button>
+
+          <button (click)="clearTodo()" mat-menu-item>
+            <mat-icon>delete</mat-icon>
+            <span>Clear all To-Do</span>
+          </button>
+        </mat-menu>
+
+        <mat-menu #youraccount="matMenu">
           <button (click)="deleteUser()" mat-menu-item>
             <mat-icon>close</mat-icon>
             <span>Close account</span>
@@ -18,10 +32,6 @@
           <button (click)="manageAccount()" mat-menu-item>
             <mat-icon>settings</mat-icon>
             <span>Manage your account</span>
-          </button>
-          <button (click)="clearTodo()" mat-menu-item>
-            <mat-icon>delete</mat-icon>
-            <span>Clear all To-Do</span>
           </button>
         </mat-menu>
       </div>
@@ -36,21 +46,21 @@
         <h4 class="heading">To-Do List</h4>
         <mat-divider></mat-divider>
         @for (todo of todoList(); track $index) {
-          <p>
-            <mat-checkbox [checked]="todo.checked" (click)="updateTodo($index, todo.content, !todo.checked)">
-              <span class="todo-text" [ngClass]="{'checked': todo.checked}">
-                {{todo.content}}
-              </span>
-            </mat-checkbox>
-          </p>
-          <mat-divider></mat-divider>
+        <p>
+          <mat-checkbox [checked]="todo.checked" (click)="updateTodo($index, todo.content, !todo.checked)">
+            <span class="todo-text" [ngClass]="{'checked': todo.checked}">
+              {{todo.content}}
+            </span>
+          </mat-checkbox>
+        </p>
+        <mat-divider></mat-divider>
         }
         @empty {
-          <div class="empty">
-            <small>
-              NO TODO FOUND
-            </small>
-          </div>
+        <div class="empty">
+          <small>
+            NO TODO FOUND
+          </small>
+        </div>
         }
       </mat-card-content>
     </mat-card>
