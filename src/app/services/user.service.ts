@@ -49,6 +49,46 @@ export class UserService {
     );
   }
 
+  updateUser(
+    fullName: string,
+    oldPassword: string,
+    newPassword: string
+  ): Observable<{fullName: boolean, password: boolean}> {
+    let req: {
+      fullName?: string;
+      oldPassword: string;
+      newPassword?: string;
+    } = { oldPassword };
+
+    if (!(fullName||newPassword)) throw new Error("Can not update");
+    if (fullName) req.fullName = fullName;
+    if (newPassword) req.newPassword = newPassword;
+
+    return this.http
+      .put(this.uriForUser, req)
+      .pipe(
+        map((data: any) => {
+          if (data != null) {
+            if (data.message.fullName)
+              localStorage.setItem('fullName', fullName);
+            else if (!data.message.password) {
+              this.openSnackBar('Wrong password');
+            }
+          }
+          return data.message;
+        }),
+        catchError((error: any) => {
+          let errorMessage = 'Something went wrong';
+          if (error.error && error.error.message) {
+            errorMessage = error.error.message.substr(7);
+          }
+          this.openSnackBar(errorMessage);
+          console.log(errorMessage);
+          return throwError(() => errorMessage);
+        })
+      );
+  }
+
   deleteUser(): Observable<boolean> {
     return this.http.delete(this.uriForUser).pipe(
       map((data: any) => {

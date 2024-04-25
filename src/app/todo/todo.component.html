@@ -25,15 +25,17 @@
         </mat-menu>
 
         <mat-menu #youraccount="matMenu">
-          <button (click)="deleteUser()" mat-menu-item>
-            <mat-icon>close</mat-icon>
-            <span>Close account</span>
-          </button>
           <button (click)="manageAccount()" mat-menu-item>
             <mat-icon>settings</mat-icon>
             <span>Manage your account</span>
           </button>
+
+          <button (click)="deleteUser()" mat-menu-item>
+            <mat-icon>close</mat-icon>
+            <span>Close account</span>
+          </button>
         </mat-menu>
+
       </div>
 
       <p class="greeting">Hi, {{nameText()}}</p>

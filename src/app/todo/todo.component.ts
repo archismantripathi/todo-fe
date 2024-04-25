@@ -30,7 +30,7 @@ import {
   FormBuilder,
   Validators,
 } from '@angular/forms';
-import { YesNoDialogData } from './yes-no-dialog/yes-no.dialog.model';
+import { ManageAccountDialogData } from './manage-account-dialog/manage-account.dialog.model';
 import { MatRippleModule } from '@angular/material/core';
 
 @Component({
@@ -125,8 +125,8 @@ export class TodoComponent implements OnInit, OnDestroy {
   }
 
   clearTodo(): void {
-    const dialogRef = this.dialog.open<boolean>(YesNoDialog, {
-      data: "Your todo list will be cleared.",
+    const dialogRef = this.dialog.open<boolean>(ConfirmDialog, {
+      data: 'Your todo list will be cleared.',
     });
 
     dialogRef.closed.subscribe((confirm) => {
@@ -140,11 +140,11 @@ export class TodoComponent implements OnInit, OnDestroy {
   }
 
   manageAccount(): void {
-    this.openSnackBar('Method not implemented.');
+    const dialogRef = this.dialog.open<void>(ManageAccountDialog);
   }
 
   deleteUser(): void {
-    const dialogRef = this.dialog.open<boolean>(YesNoDialog, {
+    const dialogRef = this.dialog.open<boolean>(ConfirmDialog, {
       data: "Your account and all it's data will be permanently deleted.",
     });
 
@@ -184,15 +184,45 @@ export class TodoComponent implements OnInit, OnDestroy {
 }
 
 @Component({
-  selector: 'yes-no-dialog',
-  templateUrl: './yes-no-dialog/yes-no.dialog.html',
-  styleUrl: './yes-no-dialog/yes-no.dialog.scss',
+  selector: 'confirm-dialog',
+  templateUrl: './confirm-dialog/confirm.dialog.html',
+  styleUrl: './confirm-dialog/confirm.dialog.scss',
   standalone: true,
   imports: [MatCardModule, MatDividerModule, MatIconModule, MatRippleModule],
 })
-export class YesNoDialog {
+export class ConfirmDialog {
   constructor(
     public dialogRef: DialogRef<boolean>,
     @Inject(DIALOG_DATA) public data: string
   ) {}
+}
+
+@Component({
+  selector: 'manage-account-dialog',
+  templateUrl: './manage-account-dialog/manage-account.dialog.html',
+  styleUrl: './manage-account-dialog/manage-account.dialog.scss',
+  standalone: true,
+  imports: [MatCardModule, MatDividerModule, MatIconModule, MatRippleModule],
+})
+export class ManageAccountDialog {
+  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
+  constructor(
+    public dialogRef: DialogRef<boolean>,
+    @Inject(DIALOG_DATA) public data: ManageAccountDialogData,
+    private _snackBar: MatSnackBar,
+    private userService: UserService,
+    private formBuilder: FormBuilder
+  ) {}
+
+  onUpdateName(): void {}
+
+  onUpdatePassword(): void {}
+
+  updateAccount(): void {}
+
+  openSnackBar(msg: string): void {
+    this._snackBar.open(msg, 'Got it!', {
+      horizontalPosition: this.horizontalPosition,
+    });
+  }
 }
