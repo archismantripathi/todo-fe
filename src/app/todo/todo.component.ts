@@ -30,7 +30,6 @@ import {
   FormBuilder,
   Validators,
 } from '@angular/forms';
-import { ManageAccountDialogData } from './manage-account-dialog/manage-account.dialog.model';
 import { MatRippleModule } from '@angular/material/core';
 
 @Component({
@@ -127,6 +126,7 @@ export class TodoComponent implements OnInit, OnDestroy {
   clearTodo(): void {
     const dialogRef = this.dialog.open<boolean>(ConfirmDialog, {
       data: 'Your todo list will be cleared.',
+      backdropClass:'dialog-backdrop'
     });
 
     dialogRef.closed.subscribe((confirm) => {
@@ -140,17 +140,18 @@ export class TodoComponent implements OnInit, OnDestroy {
   }
 
   manageAccount(): void {
-    // const dialogRef = this.dialog.open<void>(ManageAccountDialog);
-    // dialogRef.closed.subscribe(() => {
-    //   const fullName = localStorage.getItem('fullName');
-    //   if (fullName) this.nameText.set(fullName);
-    // });
+    const dialogRef = this.dialog.open<void>(ManageAccountDialog, {backdropClass:'dialog-backdrop'});
+    dialogRef.closed.subscribe(() => {
+      const fullName = localStorage.getItem('fullName');
+      if (fullName) this.nameText.set(fullName);
+    });
     this.openSnackBar('Feature is not implemented');
   }
 
   deleteUser(): void {
     const dialogRef = this.dialog.open<boolean>(ConfirmDialog, {
       data: "Your account and all it's data will be permanently deleted.",
+      backdropClass:'dialog-backdrop'
     });
 
     dialogRef.closed.subscribe((confirm) => {
