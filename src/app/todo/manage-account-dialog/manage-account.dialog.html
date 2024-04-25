@@ -1,1 +1,28 @@
-<p>manage-account-dialog works!</p>
+<main>
+  <mat-card>
+    <div class="caution-text">
+      <span><mat-icon class="caution-icon">account_circle</mat-icon> Your Acccount</span>
+    </div>
+    <mat-divider></mat-divider>
+
+    <mat-card-content class="card-content">
+      <form [formGroup]="nameForm" (ngSubmit)="onUpdateName()">
+        <mat-form-field class="new-todo-input">
+          <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="5" placeholder="Add new To-Do" formControlName="todo"></textarea>
+        </mat-form-field>
+        <button mat-fab color="primary" class="add-todo-btn" type="submit">
+          <mat-icon>add</mat-icon></button>
+      </form>
+      <h6>Change your name</h6>
+      <p>data</p>
+    </mat-card-content>
+
+    <mat-divider></mat-divider>
+    <mat-card-footer>
+      <button matRipple matRippleColor="#ff000045" class="btn close-btn" (click)="dialogRef.close(true)">
+        <mat-icon>close</mat-icon> Close
+      </button>
+    </mat-card-footer>
+  </mat-card>
+</main>

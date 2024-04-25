@@ -140,7 +140,12 @@ export class TodoComponent implements OnInit, OnDestroy {
   }
 
   manageAccount(): void {
-    const dialogRef = this.dialog.open<void>(ManageAccountDialog);
+    // const dialogRef = this.dialog.open<void>(ManageAccountDialog);
+    // dialogRef.closed.subscribe(() => {
+    //   const fullName = localStorage.getItem('fullName');
+    //   if (fullName) this.nameText.set(fullName);
+    // });
+    this.openSnackBar('Feature is not implemented');
   }
 
   deleteUser(): void {
@@ -202,17 +207,32 @@ export class ConfirmDialog {
   templateUrl: './manage-account-dialog/manage-account.dialog.html',
   styleUrl: './manage-account-dialog/manage-account.dialog.scss',
   standalone: true,
-  imports: [MatCardModule, MatDividerModule, MatIconModule, MatRippleModule],
+  imports: [
+    MatCardModule,
+    MatDividerModule,
+    MatIconModule,
+    MatRippleModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
 })
 export class ManageAccountDialog {
   horizontalPosition: MatSnackBarHorizontalPosition = 'end';
   constructor(
     public dialogRef: DialogRef<boolean>,
-    @Inject(DIALOG_DATA) public data: ManageAccountDialogData,
     private _snackBar: MatSnackBar,
     private userService: UserService,
     private formBuilder: FormBuilder
   ) {}
+
+  nameForm = this.formBuilder.group({
+    name: ['', [Validators.required]],
+  });
+  get form() {
+    return this.nameForm.controls;
+  }
 
   onUpdateName(): void {}
 
