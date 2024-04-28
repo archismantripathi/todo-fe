@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
-import { TodoComponent } from './todo/todo.component';
-import { LoginComponent } from './login/login.component';
-import { Page404Component } from './page404/page404.component';
-import { RegisterComponent } from './register/register.component';
+import { TodoComponent } from './components/todo/todo.component';
+import { LoginComponent } from './components/login/login.component';
+import { Page404Component } from './components/page404/page404.component';
+import { RegisterComponent } from './components/register/register.component';
 import { todoGuard } from './auth/todo.guard';
 import { loginSignupGuard } from './auth/login-signup.guard';
 

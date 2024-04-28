@@ -16,13 +16,13 @@ import {
   DIALOG_DATA,
   DialogModule,
 } from '@angular/cdk/dialog';
-import { UserService } from '../services/user.service';
+import { UserService } from '../../services/user.service';
 import {
   MatSnackBar,
   MatSnackBarHorizontalPosition,
 } from '@angular/material/snack-bar';
-import { TodoService } from '../services/todo.service';
-import { Todo } from '../services/model/todo.model';
+import { TodoService } from '../../services/todo.service';
+import { Todo } from '../../services/model/todo.model';
 import { NgClass } from '@angular/common';
 import {
   FormsModule,
@@ -200,6 +200,7 @@ export class ConfirmDialog {
     MatInputModule,
     FormsModule,
     ReactiveFormsModule,
+
   ],
 })
 export class ManageAccountDialog {
@@ -209,7 +210,8 @@ export class ManageAccountDialog {
     private _snackBar: MatSnackBar,
     private userService: UserService,
     private formBuilder: FormBuilder,
-    private dialog: Dialog
+    private dialog: Dialog,
+    private an: Animation
   ) {}
 
   nameForm = this.formBuilder.group({
