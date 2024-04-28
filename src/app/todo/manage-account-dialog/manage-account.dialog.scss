@@ -20,6 +20,7 @@ mat-card {
   align-items: center;
   color: #005cbb;
   font-weight: 400;
+  margin: 0 3rem;
 }
 
 .caution-icon {
@@ -37,12 +38,22 @@ mat-card {
   border: none;
 }
 
-// .confirm-btn {
-//   color: #005cbb;
-// }
+.confirm-btn {
+  color: #005cbb;
+}
 
 .close-btn {
   color: red;
   border-bottom-left-radius: 1rem;
   border-bottom-right-radius: 1rem;
+}
+
+.btn-menu-item {
+  justify-content: space-between;
+  padding: 0 1rem;
+  color: #2c2c2c;
+}
+
+.btn-menu-item mat-icon {
+  margin-left: 3rem;
 }

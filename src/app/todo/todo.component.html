@@ -8,9 +8,10 @@
         </button>
 
         <mat-menu #menu="matMenu">
-          <button mat-menu-item [matMenuTriggerFor]="youraccount">
-            <mat-icon>person</mat-icon>
-            <span>Your account</span>
+
+          <button (click)="manageAccount()" mat-menu-item>
+            <mat-icon>settings</mat-icon>
+            <span>Manage your account</span>
           </button>
 
           <button (click)="logout()" mat-menu-item>
@@ -21,18 +22,6 @@
           <button (click)="clearTodo()" mat-menu-item>
             <mat-icon>delete</mat-icon>
             <span>Clear all To-Do</span>
-          </button>
-        </mat-menu>
-
-        <mat-menu #youraccount="matMenu">
-          <button (click)="manageAccount()" mat-menu-item>
-            <mat-icon>settings</mat-icon>
-            <span>Manage your account</span>
-          </button>
-
-          <button (click)="deleteUser()" mat-menu-item>
-            <mat-icon>close</mat-icon>
-            <span>Close account</span>
           </button>
         </mat-menu>
 

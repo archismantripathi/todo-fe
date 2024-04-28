@@ -123,7 +123,7 @@ export class TodoComponent implements OnInit, OnDestroy {
   clearTodo(): void {
     const dialogRef = this.dialog.open<boolean>(ConfirmDialog, {
       data: 'Your todo list will be cleared.',
-      backdropClass:'dialog-backdrop'
+      backdropClass: 'dialog-backdrop',
     });
 
     dialogRef.closed.subscribe((confirm) => {
@@ -137,22 +137,8 @@ export class TodoComponent implements OnInit, OnDestroy {
   }
 
   manageAccount(): void {
-    const dialogRef = this.dialog.open<void>(ManageAccountDialog, {backdropClass:'dialog-backdrop'});
-    dialogRef.closed.subscribe(() => {
-      const fullName = localStorage.getItem('fullName');
-      if (fullName) this.nameText.set(fullName);
-    });
-    this.openSnackBar('Feature is not implemented');
-  }
-
-  deleteUser(): void {
-    const dialogRef = this.dialog.open<boolean>(ConfirmDialog, {
-      data: "Your account and all it's data will be permanently deleted.",
-      backdropClass:'dialog-backdrop'
-    });
-
-    dialogRef.closed.subscribe((confirm) => {
-      if (confirm) this.userService.deleteUser().subscribe();
+    this.dialog.open<void>(ManageAccountDialog, {
+      backdropClass: 'dialog-backdrop',
     });
   }
 
@@ -222,7 +208,8 @@ export class ManageAccountDialog {
     public dialogRef: DialogRef<boolean>,
     private _snackBar: MatSnackBar,
     private userService: UserService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private dialog: Dialog
   ) {}
 
   nameForm = this.formBuilder.group({
@@ -232,11 +219,32 @@ export class ManageAccountDialog {
     return this.nameForm.controls;
   }
 
-  onUpdateName(): void {}
+  deleteUser(): void {
+    const confirmationDialogRef = this.dialog.open<boolean>(ConfirmDialog, {
+      data: "Your account and all it's data will be permanently deleted.",
+      backdropClass: 'dialog-backdrop',
+    });
 
-  onUpdatePassword(): void {}
+    confirmationDialogRef.closed.subscribe((confirm) => {
+      if (confirm) this.userService.deleteUser().subscribe();
+      this.dialogRef.close(true);
+    });
+  }
 
-  updateAccount(): void {}
+  onUpdateName(): void {
+    this.openSnackBar('Feature is not implemented');
+    //note remeber to update localstorage on success
+    this.dialogRef.close(true);
+  }
+
+  onUpdatePassword(): void {
+    this.openSnackBar('Feature is not implemented');
+    this.dialogRef.close(true);
+  }
+
+  updateAccount(): void {
+    this.openSnackBar('Feature is not implemented');
+  }
 
   openSnackBar(msg: string): void {
     this._snackBar.open(msg, 'Got it!', {
