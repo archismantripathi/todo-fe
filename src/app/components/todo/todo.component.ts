@@ -211,7 +211,6 @@ export class ManageAccountDialog {
     private userService: UserService,
     private formBuilder: FormBuilder,
     private dialog: Dialog,
-    private an: Animation
   ) {}
 
   nameForm = this.formBuilder.group({
